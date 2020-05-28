@@ -1,11 +1,13 @@
 const express = require('express');
 
-const db = require('../data/db-config.js');
+
+const db = require('../data/dbConfig.js');
+
 
 const router = express.Router();
 
 router.get('/', (req,res) => {
-    db('posts')
+    db('accounts')
        .then(posts => {
            res.json(posts);
        })
@@ -16,7 +18,7 @@ router.get('/', (req,res) => {
 
 router.get('/:id', (req, res) => {
     const {id} = req.params;
-    db('posts')
+    db('accounts')
       .where({ id })
       .first()
       .then(post => {
@@ -34,7 +36,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req,res) => {
     const postData = req.body;
 
-    db('posts')
+    db('accounts')
        .insert(postData)
        .then(post => {
            res.status(201).json(post);
@@ -48,7 +50,7 @@ router.put('/:id', (req,res) => {
     const {id} = req.params;
     const changes = req.body;
 
-    db('post')
+    db('accounts')
        .wherer({id})
        .update(changes)
        .then(count => {
@@ -67,7 +69,7 @@ router.put('/:id', (req,res) => {
 router.delete('/:id', (req, res) => {
     const {id} = req.params.id;
 
-    db('posts')
+    db('accounts')
        .where({id })
        .del()
        .then(count => {
@@ -81,3 +83,6 @@ router.delete('/:id', (req, res) => {
            res.status(500).json({ message: "Error"})
        })
 })
+
+
+module.exports = router;
